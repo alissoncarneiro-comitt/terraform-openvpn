@@ -3,6 +3,9 @@
 key_name        = "sua-chave-aws"
 allowed_cidr    = "seu-ip-publico/32"
 route53_zone_id = "Z0XXXXXXXXXXXXXX"
+aws_region      = "us-east-1"
+subnet_id       = "subnet-abcdefgh"
+security_group_ids = ["sg-12345678"]
 
 # Opcional: substituir defaults
 admin_user      = "admin"

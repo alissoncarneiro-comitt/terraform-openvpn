@@ -11,7 +11,7 @@ Este repositório contém a infraestrutura como código (**IaC**) para provision
 - Atualizações automáticas
 - Integração com Route53 para DNS dinâmico
 
-A infraestrutura é criada usando **Terraform** na região **`sa-east-1` (São Paulo)** da AWS.
+A infraestrutura é criada usando **Terraform** na região **`us-east-1` (N. Virginia)** da AWS.
 
 ---
 
@@ -213,6 +213,9 @@ cd app-o8partners-terraform
 key_name           = "seu-par-de-chaves"
 allowed_cidr       = "seu-ip-publico/32"
 route53_zone_id    = "Z0XXXXXXXXXXXXXX"
+aws_region         = "us-east-1"
+subnet_id          = "subnet-abcdefgh"
+security_group_ids = ["sg-12345678"]
 ```
 
 > Substitua pelos valores reais antes de executar o Terraform.
