@@ -6,4 +6,6 @@ module "ec2" {
   admin_user       = var.admin_user
   ovpn_password    = var.ovpn_password
   api_token        = var.api_token
+  subnet_id        = var.subnet_id
+  security_group_ids = var.security_group_ids
 }

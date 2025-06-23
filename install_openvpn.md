@@ -10,7 +10,7 @@ Este script automatiza a instalação e configuração completa de um **servidor
 - Atualizações automáticas
 - Serviço Nginx para download do cliente `.ovpn`
 
-O script é otimizado para execução em **Ubuntu Server** na região **sa-east-1 (São Paulo)** da AWS.
+O script é otimizado para execução em **Ubuntu Server** na região **us-east-1 (N. Virginia)** da AWS.
 
 ---
 

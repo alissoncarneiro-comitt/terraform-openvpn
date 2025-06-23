@@ -9,6 +9,16 @@ variable "allowed_cidr" {
   type        = string
 }
 
+variable "subnet_id" {
+  description = "ID da subnet onde a instância será provisionada"
+  type        = string
+}
+
+variable "security_group_ids" {
+  description = "Lista de Security Groups a serem associados à instância"
+  type        = list(string)
+}
+
 variable "route53_zone_id" {
   description = "ID da zona DNS no Route53 onde os registros serão criados"
   type        = string
