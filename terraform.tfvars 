@@ -1,0 +1,10 @@
+# terraform.tfvars
+
+key_name        = "sua-chave-aws"
+allowed_cidr    = "seu-ip-publico/32"
+route53_zone_id = "Z0XXXXXXXXXXXXXX"
+
+# Opcional: substituir defaults
+admin_user      = "admin"
+ovpn_password   = "MinhaSenhaSuperSegura2025!"
+api_token       = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.xxxxx"
