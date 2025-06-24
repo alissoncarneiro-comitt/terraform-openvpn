@@ -1,11 +1,14 @@
 # terraform.tfvars
 
-key_name        = "sua-chave-aws"
-allowed_cidr    = "seu-ip-publico/32"
-route53_zone_id = "Z0XXXXXXXXXXXXXX"
+key_name        = "keyPair"
+instance_type   = "t2.small"
+
+allowed_cidr    = "172.31.0.0/16"
+route53_zone_id = "Z05496661ET08XJQSBJW1"
 aws_region      = "us-east-1"
-subnet_id       = "subnet-abcdefgh"
-security_group_ids = ["sg-12345678"]
+subnet_id       = "subnet-0225e34853be3d5aa"
+security_group_ids = ["sg-005c6d9bbdad744b6"]
+eip_allocation_id = "IP"
 
 # Opcional: substituir defaults
 admin_user      = "admin"

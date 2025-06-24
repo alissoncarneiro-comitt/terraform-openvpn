@@ -264,6 +264,16 @@ terraform version
 terraform init
 terraform plan
 terraform apply
+
+ou
+
+terraform init
+terraform plan -out=tfplan
+terraform apply tfplan
+
+terraform destroy -target module.ec2.aws_instance.vpn_instance -auto-approve
+
+
 ```
 
 > Confirme com `yes` quando solicitado.
@@ -278,8 +288,8 @@ O Terraform irá:
 - Provisionar uma instância EC2 Ubuntu com OpenVPN configurado
 - Associar um IP elástico à instância
 - Configurar registros DNS no Route53:
-  - `vpn.o8partners.com.br`
-  - `netdata.vpn.o8partners.com.br`
+  - `vpn.DOMAIN.com.br`
+  - `monitor.vpn.DOMAIN.com.br`
 - Aplicar certificados SSL via Let's Encrypt
 - Garantir segurança com firewall e autenticação
 

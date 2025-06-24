@@ -30,12 +30,7 @@ if ! grep -i ubuntu /etc/os-release > /dev/null; then
     exit 1
 fi
 
-for var in admin_user ovpn_password api_token; do
-  if [ -z "${!var}" ]; then
-    echo "Variável $var não definida. Abortando."
-    exit 1
-  fi
-done
+
 
 # =============================
 # 2. Variáveis de Configuração
@@ -50,12 +45,11 @@ API_TOKEN="${api_token}"
 # =============================
 # 2.1. Validação das Variáveis de Ambiente
 # =============================
-for var in ADMIN_USER OVPN_PASSWORD API_TOKEN; do
-  if [ -z "${!var}" ]; then
-    echo -e "\033[31mERRO: Variável $var não definida. Exporte antes de rodar o script.\033[0m"
-    exit 1
-  fi
-done
+if [ -z "${admin_user}" ] || [ -z "${ovpn_password}" ] || [ -z "${api_token}" ]; then
+  echo -e "\033[31mERRO: Variáveis admin_user/ovpn_password/api_token não definidas.\033[0m"
+  exit 1
+fi
+
 
 # =============================
 # 3. Funções Reutilizáveis
@@ -77,9 +71,19 @@ check_service() {
 # 4. Atualização e Instalação
 # =============================
 log "Atualizando sistema e instalando pacotes..."
-apt update && apt upgrade -y
-apt install -y openvpn easy-rsa iptables-persistent net-tools curl jq nginx certbot python3-certbot-nginx \
-               libpam-google-authenticator fail2ban netdata unattended-upgrades awscli apache2-utils || fail "Falha na instalação de pacotes"
+
+export DEBIAN_FRONTEND=noninteractive
+
+echo "iptables-persistent iptables-persistent/autosave_v4 boolean true" | debconf-set-selections
+echo "iptables-persistent iptables-persistent/autosave_v6 boolean true" | debconf-set-selections
+
+apt-get update -q
+apt-get upgrade -y -q
+apt-get install -y -q \
+    openvpn easy-rsa iptables-persistent netfilter-persistent \
+    net-tools curl jq nginx certbot python3-certbot-nginx \
+    libpam-google-authenticator fail2ban netdata unattended-upgrades \
+    awscli apache2-utils || fail "Falha na instalação de pacotes"
 
 # =============================
 # 5. Configuração de Rede (sem duplicação)
@@ -375,16 +379,17 @@ systemctl restart nginx
 # 16. Atualizações Automáticas
 # =============================
 log "Configurando atualizações automáticas..."
-cat << EOF > /etc/apt/apt.conf.d/50unattended-upgrades
+cat << 'EOF' > /etc/apt/apt.conf.d/50unattended-upgrades
 Unattended-Upgrade::Allowed-Origins {
-    "\${distro_id}:\${distro_codename}";
-    "\${distro_id}:\${distro_codename}-security";
+    "$${distro_id}:$${distro_codename}";
+    "$${distro_id}:$${distro_codename}-security";
 };
 Unattended-Upgrade::Automatic-Reboot "true";
 Unattended-Upgrade::Automatic-Reboot-Time "02:00";
 Unattended-Upgrade::Mail "admin@o8partners.com.br";
 Unattended-Upgrade::MailOnlyOnError "true";
 EOF
+
 
 dpkg-reconfigure --priority=low unattended-upgrades
 
